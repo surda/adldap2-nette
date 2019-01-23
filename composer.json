@@ -1,0 +1,55 @@
+{
+    "name": "surda/adldap2-nette",
+    "description": "Adldap2 integration into Nette Framework",
+    "keywords": ["nette", "adldap2", "ldap", "active directory"],
+    "type": "library",
+    "homepage": "http://surani.cz",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Radek Šuráni",
+            "homepage": "http://surani.cz",
+            "email": "radek@surani.cz"
+        }
+    ],
+    "support": {
+        "email": "radek@surani.cz",
+        "issues": "https://github.com/surda/adldap2-nette/issues"
+    },
+    "require": {
+        "php": ">=7.1",
+        "nette/di": "^2.4",
+        "ext-ldap": "*",
+        "adldap2/adldap2": "^9.1"
+    },
+    "require-dev": {
+        "nette/tester": "^2.0",
+        "ninjify/nunjuck": "^0.2",
+        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-strict-rules": "^0.11",
+        "phpstan/phpstan-nette": "^0.11",
+        "phpstan/phpstan-deprecation-rules": "^0.11"
+    },
+    "conflict": {
+        "nette/di": "<2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Surda\\Adldap\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Surda\\Adldap\\": "tests/cases"
+        }
+    },
+    "scripts": {
+        "tests": [
+            "vendor/bin/tester -p php -C -c tests/php-unix.ini tests/cases"
+        ],
+        "phpstan": [
+            "vendor/bin/phpstan analyse -l max -c phpstan.neon src"
+        ]
+    },
+    "minimum-stability": "stable"
+}
