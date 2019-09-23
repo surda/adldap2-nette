@@ -1,6 +1,9 @@
-# Adldap2
+# [Adldap2](https://github.com/Adldap2/Adldap2) integration into Nette Framework.
 
-[Adldap2](https://github.com/Adldap2/Adldap2) integration into Nette Framework.
+[![Build Status](https://travis-ci.org/surda/adldap2-nette.svg?branch=master)](https://travis-ci.org/surda/adldap2-nette)
+[![Licence](https://img.shields.io/packagist/l/surda/adldap2-nette.svg?style=flat-square)](https://packagist.org/packages/surda/adldap2-nette)
+[![Latest stable](https://img.shields.io/packagist/v/surda/adldap2-nette.svg?style=flat-square)](https://packagist.org/packages/surda/adldap2-nette)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 ## Installation
 
