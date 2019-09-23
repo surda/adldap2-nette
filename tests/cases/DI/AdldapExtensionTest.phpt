@@ -36,7 +36,7 @@ class AdldapExtensionTest extends TestCase
     {
         $container = $this->createContainer();
 
-        $adldap = $container->getService('adldap.adldap');
+        $adldap = $container->getService('adldap.factory');
         Assert::true($adldap instanceof Adldap);
 
         $adldap = $container->getByType(Adldap::class);

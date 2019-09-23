@@ -18,9 +18,9 @@
     },
     "require": {
         "php": ">=7.1",
-        "nette/di": "^2.4",
+        "nette/di": "^3.0",
         "ext-ldap": "*",
-        "adldap2/adldap2": "^9.1"
+        "adldap2/adldap2": "^10.0"
     },
     "require-dev": {
         "nette/tester": "^2.0",
@@ -45,10 +45,13 @@
     },
     "scripts": {
         "tests": [
-            "vendor/bin/tester -p php -C -c tests/php-unix.ini tests/cases"
+            "vendor/bin/tester -s -p php -C tests/cases"
         ],
         "phpstan": [
             "vendor/bin/phpstan analyse -l max -c phpstan.neon src"
+        ],
+        "da": [
+            "composer dump-autoload -o"
         ]
     },
     "minimum-stability": "stable"
