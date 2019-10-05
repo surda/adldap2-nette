@@ -51,7 +51,7 @@ adldap:
     timeout: 5
 ```
 
-## Usage
+## Usage authenticating
 
 ```php
 use Adldap\Adldap;
@@ -69,10 +69,19 @@ class Foo
         $this->adldap = $adldap;
     }
 
-    public function bar()
+    public function authenticate()
     {
         $provider = $this->adldap->connect();
-        // ...
+
+        try {
+            $provider->auth()->attempt('username', 'password');
+        }
+        catch (BindException $e) {
+        }
+        catch (PasswordRequiredException $e) {
+        }
+        catch (UsernameRequiredException $e) {
+        }
     }
 }
 ```
