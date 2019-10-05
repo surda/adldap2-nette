@@ -8,7 +8,11 @@ use Nette\DI\Definitions\Statement;
 use Nette\DI\CompilerExtension;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
+use stdClass;
 
+/**
+ * @property-read stdClass $config
+ */
 class AdldapExtension extends CompilerExtension
 {
     public function getConfigSchema(): Schema
