@@ -18,6 +18,7 @@ After that you have to register extension in config.neon:
 ```yaml
 extensions:
     adldap: Surda\Adldap\DI\AdldapExtension
+    adldap.credentialsFactory: Surda\Adldap\DI\LdapCredentialsExtension
 ```
 
 ## Minimal configuration
@@ -49,32 +50,32 @@ adldap:
     use_tls: false
     version: 3
     timeout: 5
+
+adldap.credentialsFactory:
+  accountPrefix: ''
+  accountSuffix: '@@ad.domain.com'
 ```
 
-## Usage authenticating
+## Usage
 
 ```php
 use Adldap\Adldap;
+use Adldap\Auth\BindException;
+use Adldap\Auth\PasswordRequiredException;
+use Adldap\Auth\UsernameRequiredException;
 
 class Foo
 {
-    /** @var Adldap */
-    private $adldap;
-
-    /**
-     * @param Adldap $adldap
-     */
-    public function __construct(Adldap $adldap)
+    public function __construct(private Adldap $adldap)
     {
-        $this->adldap = $adldap;
     }
 
-    public function authenticate()
+    public function auth(): bool
     {
         $provider = $this->adldap->connect();
 
         try {
-            $provider->auth()->attempt('username', 'password');
+            return $provider->auth()->attempt('username', 'password');
         }
         catch (BindException $e) {
         }

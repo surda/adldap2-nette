@@ -17,18 +17,18 @@
         "issues": "https://github.com/surda/adldap2-nette/issues"
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=8.0",
         "ext-ldap": "*",
         "nette/di": "^3.0",
         "adldap2/adldap2": "^10.0"
     },
     "require-dev": {
-        "nette/tester": "^2.3",
+        "nette/tester": "^2.0",
         "ninjify/nunjuck": "^0.3",
-        "phpstan/phpstan": "^0.12",
-        "phpstan/phpstan-strict-rules": "^0.12",
-        "phpstan/phpstan-nette": "^0.12",
-        "phpstan/phpstan-deprecation-rules": "^0.12"
+        "phpstan/phpstan": "^1.4",
+        "phpstan/phpstan-strict-rules": "^1.1",
+        "phpstan/phpstan-nette": "^1.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0"
     },
     "conflict": {
         "nette/di": "<2.4"

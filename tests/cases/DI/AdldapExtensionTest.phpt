@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Surda\Ldap\DI;
+namespace Tests\Surda\Adldap\DI;
 
 use Adldap\Adldap;
 use Surda\Adldap\DI\AdldapExtension;
@@ -17,10 +17,6 @@ require __DIR__ . '/../../bootstrap.php';
  */
 class AdldapExtensionTest extends TestCase
 {
-    /**
-     * @param array $config
-     * @return Container
-     */
     protected function createContainer(array $config = []): Container
     {
         $loader = new ContainerLoader(TEMP_DIR, TRUE);
