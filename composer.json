@@ -1,7 +1,7 @@
 {
-    "name": "surda/adldap2-nette",
-    "description": "Adldap2 integration into Nette Framework",
-    "keywords": ["nette", "adldap2", "ldap", "active directory"],
+    "name": "surda/zebra",
+    "description": "Zebra client for network-connected Zebra label printers",
+    "keywords": ["nette", "zebra"],
     "type": "library",
     "homepage": "http://surani.cz",
     "license": "MIT",
@@ -14,19 +14,19 @@
     ],
     "support": {
         "email": "radek@surani.cz",
-        "issues": "https://github.com/surda/adldap2-nette/issues"
+        "issues": "https://github.com/surda/zebra/issues"
     },
     "require": {
         "php": ">=8.0",
-        "ext-ldap": "*",
-        "nette/di": "^3.0",
-        "adldap2/adldap2": "^10.0"
+        "ext-sockets": "*",
+        "latte/latte": "^3.0",
+        "nette/utils": "^3.2"
     },
     "require-dev": {
         "nette/tester": "^2.0",
         "ninjify/nunjuck": "^0.3",
-        "phpstan/phpstan": "^1.4",
-        "phpstan/phpstan-strict-rules": "^1.1",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.0",
         "phpstan/phpstan-nette": "^1.0",
         "phpstan/phpstan-deprecation-rules": "^1.0"
     },
@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Surda\\Adldap\\": "src/"
+            "Surda\\Zebra\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Surda\\Adldap\\": "tests/cases"
+            "Tests\\Surda\\Zebra\\": "tests/cases"
         }
     },
     "scripts": {
