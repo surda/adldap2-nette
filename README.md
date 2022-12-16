@@ -1,7 +1,8 @@
-# [Zebra2](https://github.com/Zebra2/Zebra2) integration into Nette Framework.
+# [Adldap2](https://github.com/Adldap2/Adldap2) integration into Nette Framework.
 
-[![Licence](https://img.shields.io/packagist/l/surda/zebra.svg?style=flat-square)](https://packagist.org/packages/surda/zebra)
-[![Latest stable](https://img.shields.io/packagist/v/surda/zebra.svg?style=flat-square)](https://packagist.org/packages/surda/zebra)
+[![Build Status](https://travis-ci.org/surda/adldap2-nette.svg?branch=master)](https://travis-ci.org/surda/adldap2-nette)
+[![Licence](https://img.shields.io/packagist/l/surda/adldap2-nette.svg?style=flat-square)](https://packagist.org/packages/surda/adldap2-nette)
+[![Latest stable](https://img.shields.io/packagist/v/surda/adldap2-nette.svg?style=flat-square)](https://packagist.org/packages/surda/adldap2-nette)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 ## Installation
@@ -9,117 +10,81 @@
 The recommended way to is via Composer:
 
 ```
-composer require surda/zebra
+composer require surda/adldap2-nette
 ```
-### Basic using
+
+After that you have to register extension in config.neon:
+
+```yaml
+extensions:
+    adldap: Surda\Adldap\DI\AdldapExtension
+    adldap.credentialsFactory: Surda\Adldap\DI\LdapCredentialsExtension
+```
+
+## Minimal configuration
+
+```yaml
+adldap:
+    hosts: { 'corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org' }
+    base_dn: 'dc=corp,dc=acme,dc=org'
+    username: 'admin'
+    password: 'password'
+```
+
+List of all configuration options:
+```yaml
+adldap:
+    # Mandatory configuration options
+    hosts: { 'corp-dc1.corp.acme.org', 'corp-dc2.corp.acme.org' }
+    base_dn: 'dc=corp,dc=acme,dc=org'
+    username: 'admin'
+    password: 'password'
+
+    # Optional configuration options
+    schema: \Adldap\Schemas\ActiveDirectory
+    account_prefix: 'ACME-'
+    account_suffix: '@@acme.org'
+    port: 389
+    follow_referrals: FALSE
+    use_ssl: false
+    use_tls: false
+    version: 3
+    timeout: 5
+
+adldap.credentialsFactory:
+  accountPrefix: ''
+  accountSuffix: '@@ad.domain.com'
+```
+
+## Usage
 
 ```php
-$client = new \Surda\Zebra\Client\Client(host: '192.168.0.100');
-$client->send(zpl: '^XA.......^XZ');
-```
+use Adldap\Adldap;
+use Adldap\Auth\BindException;
+use Adldap\Auth\PasswordRequiredException;
+use Adldap\Auth\UsernameRequiredException;
 
-### Using dispatcher
-
-```php
-$label = new \Surda\Zebra\Label\DummyDataLabel();
-$printer = new \Surda\Zebra\Printer\Printer(name: 'name', host: '192.168.0.100');
-$dispatcher = new \Surda\Zebra\Dispatcher\ZebraDispatcher();
-$dispatcher->dispatch(label: $label, printer: $printer);
-```
-
-### Nette Latte template
-
-OrderLabel.latte
-```latte
-^XA
-^MMT
-^PW400
-^LL0200
-^LS0
-^BY2,3,51^FT20,80^B3N,N,,N,N^FD{$order->getNumber()}^FS
-^FT260,75^A0N,50,50^FH\^FD{$order->getNumber()}^FS
-^PQ{$quantity},0,1,Y
-^XZ
-```
-
-OrderLabel.php
-
-```php
-class OrderLabel implements \Surda\Zebra\Label\ILabel
+class Foo
 {
-    public function __construct(private Order $order)
+    public function __construct(private Adldap $adldap)
     {
     }
 
-    public function getData(): string
+    public function auth(): bool
     {
-        $template = new \Surda\Zebra\Template\Template(
-            __DIR__ . '/OrderLabel.latte',
-            [
-                'order' => $this->order,
-                'quantity' => 1,
-            ]
-        );
-        return (new \Surda\Zebra\Label\TemplateLabel($template))->getData();
-    }
-}
-```
+        $provider = $this->adldap->connect();
 
-OrderLabelFactory.php
-
-```php
-interface OrderLabelFactory
-{
-    public function create(Order $order)): OrderLabel;
-}
-```
-
-LabelPrintManager.php
-
-```php
-class LabelPrintManager
-{
-    public function __construct(
-        private \Surda\Zebra\Printer\IPrinter $printer, 
-        private \Surda\Zebra\Dispatcher\ZebraDispatcher $dispatcher,
-    )
-    {
-    }
-
-    public function print(ILabel $label): void
-    {
         try {
-            $this->dispatcher->dispatch($label, $this->printer);
-        } catch (DispatchException) {
-            throw new \Surda\Zebra\PrintException();
+            return $provider->auth()->attempt('username', 'password');
+        }
+        catch (BindException $e) {
+        }
+        catch (PasswordRequiredException $e) {
+        }
+        catch (UsernameRequiredException $e) {
         }
     }
 }
 ```
 
-config.neon
-
-```neon
-service:
-    zebraPrinter:
-        factory: \Surda\Zebra\Printer\Printer('name', '192.168.0.100', 9100)
-        autowired: false
-    - OrderLabelFactory
-    - LabelPrintManager(@zebraPrinter)
-```
-
-Presenter
-
-```php
-#[Inject]
-public OrderLabelFactory $orderLabelFactory;
-
-#[Inject]
-public LabelPrintManager $labelPrintManager;
-
-public function print() {
-    $order = new Order();
-    $label = $this->orderLabelFactory->create($order);
-    $this->labelPrintManager->print($label);
-}
-```
+More in the [Adldap2 documentation](http://adldap2.github.io/Adldap2/).
